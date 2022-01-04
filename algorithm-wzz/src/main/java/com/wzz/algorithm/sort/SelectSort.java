@@ -5,22 +5,33 @@ import java.util.Date;
 
 /**
  * 选择排序
- * 第一次循环将整个数组的最小值换到下标0
- * 第二次循环将整个数组的最小值换到下标1
- * 第二次循环将整个数组的最小值换到下标2
- * 以此类推
- * 每次的循环都会减少一个元素，时间复杂度会减低
  */
 public class SelectSort {
     public static void main(String[] args) {
-        int[] arr = new int[80000000];
-        for (int i = 0; i < 80000000; i++) {
-            arr[i] = (int) (Math.random() * 80000000); //生成一个[0, 8000000) 数
-        }
+//        int[] arr = new int[80000];
+        int[] arr = new int[]{3, 1, 0, 9, 7, 10, 8, 45, -1, 90};
+//        for (int i = 0; i < 80000; i++) {
+//            arr[i] = (int) (Math.random() * 8000000); //生成一个[0, 8000000) 数
+//        }
+
         Date data1 = new Date();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String date1Str = simpleDateFormat.format(data1);
         System.out.println("排序前的时间是=" + date1Str);
+
+        for (int i = 0; i < arr.length; i++) {
+            System.out.print(arr[i]);
+        }
+        System.out.println();
+
+        //测试冒泡排序
+        selectSort(arr);
+
+        System.out.println();
+        for (int i = 0; i < arr.length; i++) {
+            System.out.print(arr[i]);
+        }
+        System.out.println();
 
 
         Date data2 = new Date();
@@ -29,19 +40,26 @@ public class SelectSort {
     }
 
     public static void selectSort(int[] arr) {
-        for (int i = 0; i < arr.length - 1; i++) {
+        for (int i = 0; i < arr.length; i++) {
+            //定义数据，保存当前值
+            int minNum = arr[i];
             int minIndex = i;
-            int min = arr[i];
+
+            //循环查找剩下最小值
             for (int j = i + 1; j < arr.length; j++) {
-                if (min > arr[j]) { // 说明假定的最小值，并不是最小
-                    min = arr[j]; // 重置 min
-                    minIndex = j; // 重置 minIndex
+                //如果当前值小于当前保存的值
+                if (arr[j] < minNum) {
+                    minNum = arr[j];
+                    minIndex = j;
                 }
             }
-            if (minIndex != i) {
-                arr[minIndex] = arr[i];
-                arr[i] = min;
+            //判断  如果当前数组下标 不等于 开始保存的数组下标就交换值
+            if (i == minIndex) {
+                continue;
             }
+
+            arr[minIndex] = arr[i];
+            arr[i] = minNum;
         }
     }
 
