@@ -1,14 +1,16 @@
 package com.wzz.algorithm.sort;
 
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 
 public class ShellSort {
     public static void main(String[] args) {
-//        int[] arr = {4, 8, 5, 7, 3, 0, 1, 2};
+////        int[] arr = {9, 78, 0, 23, 567, 70, -1, 900, -4561, 6, -2, 3};
+//        int[] arr = {10, 9, 8, 7, 6, 5, 4, 3, 2, 1};
 //        System.out.println("          原本=:" + Arrays.toString(arr));
 
-        int[] arr = new int[80000000];  //8亿  28s
+        int[] arr = new int[80000000];  //8kw 21s
         for (int i = 0; i < 80000000; i++) {
             arr[i] = (int) (Math.random() * 80000000); //生成一个[0, 8000000) 数
         }
@@ -18,8 +20,8 @@ public class ShellSort {
         String date1Str = simpleDateFormat.format(data1);
         System.out.println("排序前的时间是=" + date1Str);
 
-//        shellSort2(arr);
-        shellSort(arr);
+        shellSort2(arr);
+//        shellSort(arr);
 
         Date data2 = new Date();
         String date2Str = simpleDateFormat.format(data2);
@@ -30,6 +32,7 @@ public class ShellSort {
 
     /**
      * 交换法
+     *
      * @param arr
      */
     public static void shellSort(int[] arr) {
@@ -51,7 +54,7 @@ public class ShellSort {
 //// 遍历各组中所有的元素(共 gap 组，每组有个元素), 步长 gap
 //                for (int j = i - gap; j >= 0; j -= gap) {
 //// 如果当前元素大于加上步长后的那个元素，说明交换
-//                    if (arr[j] > arr[j  + gap]) {
+//                    if (arr[j] > arr[j + gap]) {
 //                        temp = arr[j];
 //                        arr[j] = arr[j + gap];
 //                        arr[j + gap] = temp;
@@ -115,15 +118,13 @@ public class ShellSort {
             for (int i = gap; i < arr.length; i++) {
                 int j = i;
                 int temp = arr[j];
-                if (arr[j] < arr[j - gap]) {
-                    while (j - gap >= 0 && temp < arr[j - gap]) {
+                while (j - gap >= 0 && temp < arr[j - gap]) {
 //移动
-                        arr[j] = arr[j-gap];
-                        j -= gap;
-                    }
-//当退出 while 后，就给 temp 找到插入的位置
-                    arr[j] = temp;
+                    arr[j] = arr[j - gap];
+                    j -= gap;
                 }
+//当退出 while 后，就给 temp 找到插入的位置
+                arr[j] = temp;
             }
         }
     }

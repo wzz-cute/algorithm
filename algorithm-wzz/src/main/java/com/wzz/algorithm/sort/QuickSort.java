@@ -6,7 +6,7 @@ import java.util.Date;
 
 public class QuickSort {
     public static void main(String[] args) {
-        int[] arr = {-9, 78, 0, 23, -567, 70, -1, 900, 4561};
+        int[] arr = {5, 0, 7, 6, 10, -123, 5, 67, 2, 1, 7};
 //测试快排的执行速度
 // 创建要给 80000 个的随机的数组
 //        int[] arr = new int[80000000];
@@ -14,17 +14,17 @@ public class QuickSort {
 //            arr[i] = (int) (Math.random() * 8000000); // 生成一个[0, 8000000) 数
 //        }
 
-        System.out.println("arr=" + Arrays.toString(arr));
-        System.out.println("排序前");
+//        System.out.println("arr=" + Arrays.toString(arr));
+//        System.out.println("排序前");
         Date data1 = new Date();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String date1Str = simpleDateFormat.format(data1);
-        System.out.println("排序前的时间是=" + date1Str);
+//        System.out.println("排序前的时间是=" + date1Str);
 
         quickSort(arr, 0, arr.length - 1);
         Date data2 = new Date();
         String date2Str = simpleDateFormat.format(data2);
-        System.out.println("排序前的时间是=" + date2Str);
+//        System.out.println("排序前的时间是=" + date2Str);
         System.out.println("arr=" + Arrays.toString(arr));
     }
 
@@ -33,10 +33,13 @@ public class QuickSort {
         int r = right; //右下标
 //pivot 中轴值
         int pivot = arr[(left + right) / 2];
+        System.out.println(pivot);
         int temp = 0; //临时变量，作为交换时使用
 //while 循环的目的是让比 pivot 值小放到左边
 //比 pivot 值大放到右边
         while (l < r) {
+            System.out.println("arr=" + Arrays.toString(arr));
+
 //在 pivot 的左边一直找,找到大于等于 pivot 值,才退出
             while (arr[l] < pivot) {
                 l += 1;
@@ -64,6 +67,9 @@ public class QuickSort {
                 l += 1;
             }
         }
+
+        System.out.println("arr=" + Arrays.toString(arr));
+
 // 如果 l == r, 必须 l++, r--, 否则为出现栈溢出
         if (l == r) {
             l += 1;
