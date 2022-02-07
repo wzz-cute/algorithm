@@ -25,9 +25,7 @@ public class A {
             int num = i / 2;// 50
             int curr = 1 + i;// 101 101 101
             int total = 0;
-            for (int j = 0; j < num; j++) {
-                total += curr;
-            }
+            total = num * curr;
             System.out.println(total);
             return;
         }
@@ -40,9 +38,7 @@ public class A {
         int num = (i - 1) / 2;//101-1 = 100
         int curr = 1 + (i - 1);//1=100 = 101  2+99= 101  3+98 = 101
         int total = 0;
-        for (int j = 0; j < num; j++) {
-            total += curr;
-        }
+        total = num * curr;
         total += i;
         System.out.println(total);
 
