@@ -1,4 +1,4 @@
-package com.wzz.algorithm;
+package com.wzz;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

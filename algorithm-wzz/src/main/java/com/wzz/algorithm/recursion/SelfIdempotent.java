@@ -4,6 +4,8 @@ import com.alibaba.fastjson.JSON;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * 计算从独身数开始到十全十美数
@@ -16,6 +18,8 @@ import java.util.List;
  * 4.递归不能递归过多，每一次递归都是调用一次方法，都会压入栈中，会造成内存溢出
  */
 public class SelfIdempotent {
+    ExecutorService fixedThreadPool = Executors.newFixedThreadPool(10);
+
     public static void main(String[] args) {
         Integer minDigit = 1;//最小位数
         Integer maxDigit = 10;//最大位数
@@ -51,7 +55,7 @@ public class SelfIdempotent {
         sb.append(9);
 
         //当前最大值  转换为值
-        long num = Long.parseLong(sb.toString()) ;
+        long num = Long.parseLong(sb.toString());
 
         //先创建存放当前自幂数list
         List<Integer> listNum = new ArrayList<>();
@@ -59,36 +63,44 @@ public class SelfIdempotent {
         //开始计算
         //从当前最小值 到最大值循环 1  9
         for (int i = currMinNum; i <= num; i++) {
-            //将当前的数分割出来 比如9999  分成{9,9,9,9}
-            String[] split = String.valueOf(i).split("");
+            int finalI = i;
+            fixedThreadPool.execute(new Runnable() {
+                @Override
+                public void run() {
+                    //将当前的数分割出来 比如9999  分成{9,9,9,9}
+                    String[] split = String.valueOf(finalI).split("");
 //            System.out.println("目前数:" + i);
 
-            //目前总数 当前各个自幂数相加的总和
-            Long currTotal = 0l;
+                    //目前总数 当前各个自幂数相加的总和
+                    Long currTotal = 0l;
 
-            //当前位数的长度
-            int length = split.length;
+                    //当前位数的长度
+                    int length = split.length;
 
-            //根据当前位数长度 自幂数乘积 进行相加
-            for (int j = 0; j < length; j++) {
-                //开始计算当前数的位数 自幂数总和
-                currTotal += calculationSelfIdempotent(split[j], length);
-            }
+                    //根据当前位数长度 自幂数乘积 进行相加
+                    for (int j = 0; j < length; j++) {
+                        //开始计算当前数的位数 自幂数总和
+                        currTotal += calculationSelfIdempotent(split[j], length);
 
-            //如果目前自幂数总和为当前数那就加入listNum
-            if (currTotal == i) {
+                    }
+
+                    //如果目前自幂数总和为当前数那就加入listNum
+                    if (currTotal == finalI) {
 //                System.out.println("位数:" + minDigit + "   值:" + i);
-                listNum.add(i);
-            }
+                        listNum.add(finalI);
+                    }
+                }
+            });
+            //计算完毕加入当前总容积中
         }
-        //计算完毕加入当前总容积中
-        nums.add(listNum);
 
         //打印
+        nums.add(listNum);
+//        System.out.println(nums);
         print(minDigit, listNum);
-
         //记得条件增加 否则造成死循环
         minDigit++;
+
 
         //如果没达到条件就进入下一次递归
         return calculation(nums, minDigit,
